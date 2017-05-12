@@ -1,0 +1,200 @@
+---
+title: "TriadSim Vignette"
+author: "Min Shi"
+date: "`r Sys.Date()`"
+output: pdf_document
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+*TriadSim* is a package that can simulate genotypes for case-parent triads, case-control, and quantitative trait samples with realistic linkage diequilibrium structure and allele frequency distribution. For studies of epistasis one can simulate models that involve specific SNPs at specific sets of loci, which we will refer to as "pathways". TriadSim generates genotype data by resampling triad genotypes from existing data. It takes genotypes in PLINK format as the input files. The genotypes for the mothers, fathers, and children are in separate files. The mothers, fathers, and children must be from the same set of triad families although the ordering of the families can be different for the three sets of data. After reading in the genotypes, a sorting step will reorder the families so that the three individuals in each family can realign.
+
+## Main function ` TriadSim` 
+
+` TriadSim` is the main function to perform the simulations. The example function call below simulates genotype data for 1000 case-parent triads for 4 chromosomes (chromsomes 1, 8 17, 20) under a genetic main effect scenario with a baseline disease prevalence of P0=0.001 and genetic relative risks of 1.5 and 2 for carrying the first and the second pathway respectively. This function call will  write output files in PLINK. The output file names and path to the directory are given by the parameter "out.put.file" and the chromosome number. Each set (.bim, .bed and .fam files) of PLINK files contain genotype data for one chromosome for all simulated samples. The name of the file is the concatenation of the value of the input parameter "out.put.file" and chromosome number. For example, if "out.put.file" is set to be "triad", the names of the output files will be triad1, triad8, triad17 and triad20 for our example. See R package documentation for more details.
+
+ 
+```{r}
+library(TriadSim)
+ m.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_mom')
+ f.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_dad')
+ k.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_kid')
+ input.plink.file <- c(m.file, f.file, k.file)
+
+ TriadSim(input.plink.file, out.put.file=file.path(tempdir(),'triad'), fr.desire=0.05,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 2), risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1)
+
+```
+
+The following call simulates a quantitative trait (by setting "qtl=T"). The function will create 4 sets of plink files, one for each chromosome.
+```{r}
+ TriadSim(input.plink.file, file.path(tempdir(),'qtl'), fr.desire=0.3,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1,risk.pathway.unexposed=c(0.5, 1), risk.pathway.exposed=c(0.5, 1), is.case=TRUE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1, qtl=T)
+```
+
+The following call simulates a scenario that involves gene-environment interaction. The relative risk for the exposure main effect is 1.2. The relative risks for carrying the first and second pathway SNPs are 1.5 and 2 respectively for the exposed individuals and are 1 and 1 for the unexposed individuals.
+
+```{r}
+ TriadSim(input.plink.file, file.path(tempdir(),'gxe'), fr.desire=0.3,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1.2,risk.pathway.unexposed=c(1,1), risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=0.3, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1, qtl=FALSE)
+```
+
+The following call simulates a stratified scenario that involves gene-environment interaction. The risk parameters are the same as the scenario above. The "input.plink.file"" is a list of two character vectors. Each vector contains three character strings giving the directory and  basename of the PLINK files in one subpopulation.The subpopulations are equally sized (pop1.frac=0.5). The baseline disease prevalence (disease prevalence in the unexposed who carries 0 copy of the risk pathway) is 0.001 in the first subpopulation while that in the second subpopulation is 0.003 (0.001*3). The exposure prevalence in the two subpopulations are 0.1 and 0.3 respectively.
+
+```{r}
+library(TriadSim)
+ m.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_mom')
+ f.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_dad')
+ k.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_kid')
+ m.file2 <- file.path(system.file(package = "TriadSim"),'extdata/pop2_4chr_mom')
+ f.file2 <- file.path(system.file(package = "TriadSim"),'extdata/pop2_4chr_dad')
+ k.file2 <- file.path(system.file(package = "TriadSim"),'extdata/pop2_4chr_kid')
+ input.plink.file2 <- list(c(m.file, f.file, k.file),c(m.file2, f.file2, k.file2))
+
+ TriadSim(input.plink.file2, out.put.file=file.path(tempdir(),'stratified') , fr.desire=0.3,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1.2,risk.pathway.unexposed=c(1,1), risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=c(0.1, 0.3), pop1.frac=0.5, P0.ratio=3,rcmb.rate, no_cores=1)
+
+```
+
+To simulate case-control data the function needs to be called twice, calls to simulate cases (is.case=TRUE) and controls (is.case=FALSE) respectively. The script below calls the function to simulate 1000 cases and 1000 controls and writes genotypes of the cases and controls into seperate sets of PLINK files.
+```{r}
+## cases
+ TriadSim(input.plink.file,file.path(tempdir(),'case') , fr.desire=0.05,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=TRUE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 2), risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1)
+## controls
+ TriadSim(input.plink.file, file.path(tempdir(),'ctrl'), fr.desire=0.05,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=TRUE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 2), risk.pathway.exposed=c(1.5, 2), is.case=FALSE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1)
+
+```
+
+
+### Some additional details
+The source data may contain genotyping errors that cause non-Mendelian inheritance patterns. For these non-Mendelian families, genotypes of the three individuals in the family will be set to missing at the corresponding SNPs. We assume nonpaternity and adoption have both been ruled out in QC for the source data. 
+
+This function requires at least two pathway SNPs, eithe two SNPs in the one pathway or two pathways each involving one SNP. If the users are interested in a single SNP scenario one can trick the function by setting the number of pathway to 2, each with a single SNP in the pathway but only the SNP in the first pathway carries a risk while that in the second pathway does not change risk. See below for an example.
+```{r}
+ TriadSim(input.plink.file, file.path(tempdir(),'singleSNP'), fr.desire=0.05,pathways=list(1,2),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 1), risk.pathway.exposed=c(1.5, 1), is.case=TRUE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1)
+
+```
+
+##Facility functions
+
+The following set of functions is provided in case users want to have more control over the simulation parameters. They are called by the main function to generate simulations. Users do not need to call them directly.
+
+###`pick_target.snp`
+Users can manually pick the target SNPs in the pathway or use the facility function `pick_target.snp` to pick the set of target SNPs in the pathway(s) based on a desired allele frequency. The example below uses the example files that come with the package to select 8 SNPs with allele frequencies close to 0.05. The function returns the selected target SNPs by giving the row numbers (i.e., the order) of the corresponding SNPs among all the SNPs in the associated "bim" file. For example a return of "1084 2044 3285 4016 5117 6067 7077 8187" means the SNPs at rows 1084 2044 3285 4016 5117 6067 7077 8187 are selected to be the target SNPs in the pathway.
+
+```{r}
+ m.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_mom')
+ f.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_dad')
+ picked.target <- pick_target.snp(c(m.file,f.file),0.05, 8)
+ cat('Target SNPs picked:',picked.target[[2]],'\n')
+```
+
+
+###`get.target.geno`
+The function `get.target.geno` retrieves genotypes of the target SNPs and returns the genotypes of the triads in a list of three elements: the observed genotypes of the mothers from family 1 to family n repeated twice, genotypes of the fathers from family 1 to family n repeated twice and genotypes of children from family 1 to n followed by (stacking on top of) genotypes of the complements in the same family order.
+
+```{r}
+target.snp <- picked.target[[2]]
+ m.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_mom')
+ f.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_dad')
+ k.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_kid')
+# the preloaded data frame snp.all2 contains the data frame read from the corresponding .bim file.
+target.geno <- get.target.geno(c(m.file,f.file,k.file), target.snp,snp.all2)
+```
+The output *target.geno* is a list of three elements, each being a matrix of genotypes 
+```{r}
+length(target.geno)
+```
+For this example the genotypes form a 2000 x 8 numerical matrix (2x1000 families and 8 SNPs)
+```{r}
+mom.target <- target.geno[[1]]
+dad.target <- target.geno[[2]]
+kid.target <- target.geno[[3]]
+str(mom.target)
+```
+
+To increase diversity, TriadSim introduces break points at each chromosome, selecting them independently for each triad being simulated. The break points can be picked manually or using the function `get.brks`. The function tends to pick the break points at recombination hotspots if such data are passed in as an input parameter *rcmb.rate*. 
+
+```{r}
+found.brks <- get.brks(N.brk=3,n.ped=1000, snp.all2, target.snp,rcmb.rate=rcmb.rate)
+breaks <- found.brks[[1]]
+family.position <- found.brks[[2]] 
+```
+
+This function returns a list of two items. The first is a 1000 x 17  matrix of integers showing where the chromosomal breaks are to take place (in terms of the order of the SNPs in the PLINK files) for each individual in the simulated trios. Each chromosome has 3 breaks, adding to that is the number of breaks between chromosomes, i.e., 3, and the first and the last SNPs, and this is where the 17 comes from. Here 1000 denotes the number of triads in the simulated data as defined by the `n.ped` input parameter.
+
+```{r}
+dim(breaks)
+head(breaks)
+```
+
+The second one is a 1000 x 8 matrix showing the chromosomal segments out of which each target SNP is selected for each simulated trio.
+
+```{r}
+dim(family.position)
+head(family.position)
+```
+
+###`fit.risk.model.par`
+`fit.risk.model.par` is a function that resamples families based on the specified risk model. It can simulate a homogenous scenario or a stratified scenario with two subpopulations. The risk model can involve exposure main effects as well as gene by exposure interactions. This function is parallelized to shorten the running time. An example call for simulating a binary phenotype is given below.
+
+```{r}
+betas <- c(-6.4, 3.2, 5.8)
+pwy <- list(1:4,5:8)
+## scenarios of genetic main effects only for a binary phenotype
+fitted.model1 <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp,fam.pos=family.position, 
+mom.tar=mom.target,dad.tar=dad.target, kid.tar=kid.target, pathways=pwy, 
+betas, e.fr=NA, betas,pop1.frac= NA,rate.beta=NA,qtl= FALSE,out.put.file=file.path(tempdir(),'riskmodel1'),no_cores=1)
+```
+This function returns a list of five items. For a scenario involving a binary trait in a homogeneous population and no gene-environment interaction only the first two items contain the data needed. The first is a 1000 x 16  matrix of integers showing which source families are picked for each chromosomal segments in each of the 1000 simulated trios.
+
+```{r}
+sel.fam <- fitted.model1[[1]]
+colnames(sel.fam) <- paste('seg',1:ncol(sel.fam),sep="_")
+rownames(sel.fam) <- paste('fam',1:nrow(sel.fam),sep="_")
+dim(sel.fam)
+head(sel.fam)
+```
+
+The second one is a 1000 x 8 matrix showing the genotypes at the 8 target SNPs.
+```{r}
+sim.pathway.geno <-  fitted.model1[[2]]
+colnames(sim.pathway.geno) <- paste('target.snp',1:ncol(sim.pathway.geno),sep="_")
+rownames(sim.pathway.geno) <- paste('fam',1:nrow(sim.pathway.geno),sep="_")
+dim(sim.pathway.geno)
+head(sim.pathway.geno)
+```
+
+The following is an example call for a scenario involving gene-environment interaction for a binary phenotype.
+```{r}
+## a scenario of gene-environment interaction  for a binary phenotype
+betas.e <- c(-6.4, 3.9, 6.5)
+
+fitted.model2 <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp,fam.pos=family.position, 
+mom.tar=mom.target,dad.tar=dad.target, kid.tar=kid.target, pathways=pwy, 
+betas, e.fr= 0.2, betas.e,pop1.frac= NA,rate.beta=NA, qtl= FALSE,out.put.file=file.path(tempdir(),'riskmodel2'),no_cores=1)
+```
+For this scenario the third returned item contains exposure data.
+```{r}
+exposure <-  fitted.model2[[3]]
+table(exposure)
+```
+
+The following is an example call for a quantitative trait scenario.
+```{r}
+## scenarios of a quantitative trait phenotype
+fitted.model3 <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp,fam.pos=family.position, 
+mom.tar=mom.target,dad.tar=dad.target, kid.tar=kid.target, pathways=pwy, 
+betas, e.fr=NA, betas,pop1.frac= NA,rate.beta=NA,qtl=TRUE,out.put.file=file.path(tempdir(),'riskmodel3'),no_cores=1)
+```
+
+For this scenario the fifth returned item contains data for the quantitative phenotype.
+```{r,fig.width=6, fig.height=6}
+qt.pheno <-  fitted.model3[[5]]
+hist(qt.pheno,main='Histogram of Simulated Quantitative Trait',xlab='QT')
+```
+
+###`glue.chr.segment.par`
+`glue.chr.segment.par` is a function that splices the triad chromosomal segments into "complete" trios. The spliced trio sets are written into separate plink files chromosome by chromosome. It is parallelized and if no "no_cores"" value is given half of the total number of CPUs available will be used in the parallelization.
+
+```{r}
+glue.chr.segment.par(c(m.file,f.file,k.file),file.path(tempdir(),'triad'), breaks,sel.fam,snp.all2,sim.pathway.geno,target.snp,pop.vec=NA,no_cores=1,flip=TRUE) 
+```
