@@ -5,14 +5,25 @@ library(TriadSim)
  k.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_kid')
  input.plink.file <- c(m.file, f.file, k.file)
 
- TriadSim(input.plink.file, out.put.file=file.path(tempdir(),'triad'), fr.desire=0.05,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 2), risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1)
+ TriadSim(input.plink.file, out.put.file=file.path(tempdir(),'triad'), fr.desire=0.05,
+          pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,
+          risk.exposure= 1,risk.pathway.unexposed=c(1.5, 2),risk.pathway.exposed=c(1.5,2),
+          is.case=TRUE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1)
 
 
 ## ------------------------------------------------------------------------
- TriadSim(input.plink.file, file.path(tempdir(),'qtl'), fr.desire=0.3,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1,risk.pathway.unexposed=c(0.5, 1), risk.pathway.exposed=c(0.5, 1), is.case=TRUE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1, qtl=T)
+ TriadSim(input.plink.file, file.path(tempdir(),'qtl'), fr.desire=0.3,
+          pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,
+          is.OR=FALSE,risk.exposure= 1,risk.pathway.unexposed=c(0.5, 1), 
+          risk.pathway.exposed=c(0.5, 1), is.case=TRUE, e.fr=NA, pop1.frac=NA, 
+          P0.ratio=1,rcmb.rate, no_cores=1, qtl=T)
 
 ## ------------------------------------------------------------------------
- TriadSim(input.plink.file, file.path(tempdir(),'gxe'), fr.desire=0.3,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1.2,risk.pathway.unexposed=c(1,1), risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=0.3, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1, qtl=FALSE)
+ TriadSim(input.plink.file, file.path(tempdir(),'gxe'), fr.desire=0.3,
+          pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,
+          is.OR=FALSE,risk.exposure= 1.2,risk.pathway.unexposed=c(1,1), 
+          risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=0.3, pop1.frac=NA, 
+          P0.ratio=1,rcmb.rate, no_cores=1, qtl=FALSE)
 
 ## ------------------------------------------------------------------------
 library(TriadSim)
@@ -24,18 +35,35 @@ library(TriadSim)
  k.file2 <- file.path(system.file(package = "TriadSim"),'extdata/pop2_4chr_kid')
  input.plink.file2 <- list(c(m.file, f.file, k.file),c(m.file2, f.file2, k.file2))
 
- TriadSim(input.plink.file2, out.put.file=file.path(tempdir(),'stratified') , fr.desire=0.3,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1.2,risk.pathway.unexposed=c(1,1), risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=c(0.1, 0.3), pop1.frac=0.5, P0.ratio=3,rcmb.rate, no_cores=1)
+ TriadSim(input.plink.file2, out.put.file=file.path(tempdir(),'stratified') , 
+          fr.desire=c(0.3,0.15),pathways=list(1:4,5:8),n.ped=1000, N.brk=3, 
+          target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1.2,
+          risk.pathway.unexposed=c(1,1), risk.pathway.exposed=c(1.5, 2), 
+          is.case=TRUE, e.fr=c(0.1, 0.3), pop1.frac=0.5, P0.ratio=3,
+          rcmb.rate,no_cores=1)
 
 
 ## ------------------------------------------------------------------------
 ## cases
- TriadSim(input.plink.file,file.path(tempdir(),'case') , fr.desire=0.05,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=TRUE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 2), risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1)
+ TriadSim(input.plink.file,file.path(tempdir(),'case') , fr.desire=0.05,
+          pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,
+          is.OR=TRUE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 2), 
+          risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=NA, pop1.frac=NA, 
+          P0.ratio=1,rcmb.rate, no_cores=1)
 ## controls
- TriadSim(input.plink.file, file.path(tempdir(),'ctrl'), fr.desire=0.05,pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=TRUE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 2), risk.pathway.exposed=c(1.5, 2), is.case=FALSE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1)
+ TriadSim(input.plink.file, file.path(tempdir(),'ctrl'), fr.desire=0.05,
+          pathways=list(1:4,5:8),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,
+          is.OR=TRUE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 2), 
+          risk.pathway.exposed=c(1.5, 2), is.case=FALSE, e.fr=NA, pop1.frac=NA,
+          P0.ratio=1,rcmb.rate, no_cores=1)
 
 
 ## ------------------------------------------------------------------------
- TriadSim(input.plink.file, file.path(tempdir(),'singleSNP'), fr.desire=0.05,pathways=list(1,2),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,is.OR=FALSE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 1), risk.pathway.exposed=c(1.5, 1), is.case=TRUE, e.fr=NA, pop1.frac=NA, P0.ratio=1,rcmb.rate, no_cores=1)
+ TriadSim(input.plink.file, file.path(tempdir(),'singleSNP'), fr.desire=0.05,
+          pathways=list(1,2),n.ped=1000, N.brk=3, target.snp=NA,P0=0.001,
+          is.OR=FALSE,risk.exposure= 1,risk.pathway.unexposed=c(1.5, 1), 
+          risk.pathway.exposed=c(1.5, 1), is.case=TRUE, e.fr=NA, pop1.frac=NA, 
+          P0.ratio=1,rcmb.rate, no_cores=1)
 
 
 ## ------------------------------------------------------------------------
@@ -75,12 +103,22 @@ dim(family.position)
 head(family.position)
 
 ## ------------------------------------------------------------------------
+found.brks <- get.brks(N.brk=c(4,3,2,2),n.ped=1000, snp.all2, target.snp,rcmb.rate=rcmb.rate)
+breaks <- found.brks[[1]]
+family.position <- found.brks[[2]] 
+dim(breaks)
+head(breaks)
+
+## ------------------------------------------------------------------------
 betas <- c(-6.4, 3.2, 5.8)
 pwy <- list(1:4,5:8)
 ## scenarios of genetic main effects only for a binary phenotype
-fitted.model1 <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp,fam.pos=family.position, 
-mom.tar=mom.target,dad.tar=dad.target, kid.tar=kid.target, pathways=pwy, 
-betas, e.fr=NA, betas,pop1.frac= NA,rate.beta=NA,qtl= FALSE,out.put.file=file.path(tempdir(),'riskmodel1'),no_cores=1)
+fitted.model1 <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp,
+                                    fam.pos=family.position, mom.tar=mom.target,
+                                    dad.tar=dad.target, kid.tar=kid.target, 
+                                    pathways=pwy, betas, e.fr=NA, betas,pop1.frac= NA,
+                                    rate.beta=NA,qtl= FALSE,
+                                    out.put.file=file.path(tempdir(),'riskmodel1'),no_cores=1)
 
 ## ------------------------------------------------------------------------
 sel.fam <- fitted.model1[[1]]
@@ -100,9 +138,13 @@ head(sim.pathway.geno)
 ## a scenario of gene-environment interaction  for a binary phenotype
 betas.e <- c(-6.4, 3.9, 6.5)
 
-fitted.model2 <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp,fam.pos=family.position, 
-mom.tar=mom.target,dad.tar=dad.target, kid.tar=kid.target, pathways=pwy, 
-betas, e.fr= 0.2, betas.e,pop1.frac= NA,rate.beta=NA, qtl= FALSE,out.put.file=file.path(tempdir(),'riskmodel2'),no_cores=1)
+fitted.model2 <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp,
+                                    fam.pos=family.position,mom.tar=mom.target,
+                                    dad.tar=dad.target, kid.tar=kid.target,
+                                    pathways=pwy,betas, e.fr= 0.2, 
+                                    betas.e,pop1.frac= NA,rate.beta=NA,qtl= FALSE,
+                                    out.put.file=file.path(tempdir(),'riskmodel2'),
+                                    no_cores=1)
 
 ## ------------------------------------------------------------------------
 exposure <-  fitted.model2[[3]]
@@ -110,14 +152,19 @@ table(exposure)
 
 ## ------------------------------------------------------------------------
 ## scenarios of a quantitative trait phenotype
-fitted.model3 <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp,fam.pos=family.position, 
-mom.tar=mom.target,dad.tar=dad.target, kid.tar=kid.target, pathways=pwy, 
-betas, e.fr=NA, betas,pop1.frac= NA,rate.beta=NA,qtl=TRUE,out.put.file=file.path(tempdir(),'riskmodel3'),no_cores=1)
+fitted.model3 <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp,
+                                    fam.pos=family.position, mom.tar=mom.target,
+                                    dad.tar=dad.target, kid.tar=kid.target, 
+                                    pathways=pwy,betas, e.fr=NA, 
+                                    betas,pop1.frac= NA,rate.beta=NA,qtl=TRUE,
+                                    out.put.file=file.path(tempdir(),'riskmodel3'),
+                                    no_cores=1)
 
 ## ----fig.width=6, fig.height=6-------------------------------------------
 qt.pheno <-  fitted.model3[[5]]
 hist(qt.pheno,main='Histogram of Simulated Quantitative Trait',xlab='QT')
 
 ## ------------------------------------------------------------------------
-glue.chr.segment.par(c(m.file,f.file,k.file),file.path(tempdir(),'triad'), breaks,sel.fam,snp.all2,sim.pathway.geno,target.snp,pop.vec=NA,no_cores=1,flip=TRUE) 
+glue.chr.segment.par(c(m.file,f.file,k.file),file.path(tempdir(),'triad'),breaks,sel.fam,
+                     snp.all2,sim.pathway.geno,target.snp,pop.vec=NA,no_cores=1,flip=TRUE) 
 

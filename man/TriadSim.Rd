@@ -24,15 +24,22 @@ two subpopulations.}
 also contain information on chromosome number. E.g., for a base filename "trio" and for chromosome 1 the final filenames for the PLILK files
 are "trio1.bim","trio1.bed" and "trio1.fam".}
 
-\item{fr.desire}{is a double number giving the desired frequency of the target SNPs.}
+\item{fr.desire}{for a simulation of a homogenous population, fr.desire is a double number giving the desired frequency of the target SNPs. 
+For a simulation under population stratification, fr desire is a vector of two double numbers, the first number giving the desired
+allele frequency of the target SNPs in the second population and the second number giving the desired difference in allele frequencies
+between the two subpopulations.}
 
 \item{pathways}{is a list of vectors of integers. Each vector of integers denotes the SNPs involved in a particular pathway. E.g. list(1:4,5:8)}
 
 \item{n.ped}{is an integer giving the number of trios to be simulated}
 
-\item{N.brk}{is an integer giving the number of breaks to be picked for each chromosome.}
+\item{N.brk}{is either an integer or a vector of integers. If it is a single integer it gives the number of breaks to be picked 
+for each chromosome and all chromosomes will have the same number of break points. If it is an vector of integers it should be of the
+same length as the number of chromosomes, each number giving the number of break points of the corresponding chromosomes. The chromosomes
+are asssumed to be ordered by chromosome number.}
 
-\item{target.snp}{is a vector of integers showing the row number of the target SNPs in the .bim file.}
+\item{target.snp}{is a vector of integers showing the row number of the target SNPs in the .bim file. By default target.snp is set to "NA" and
+the facility function "pick_target.snp" wil be called to select the target SNPs.}
 
 \item{P0}{gives the baseline disease prevalence in the unexposed individuals with 0 copies of the risk pathways.}
 
