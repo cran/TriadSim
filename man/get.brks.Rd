@@ -4,19 +4,15 @@
 \alias{get.brks}
 \title{Picking chromosomal breaking points}
 \usage{
-get.brks(N.brk, n.ped, snp.all2, target.snp, rcmb.rate = NA,
-  same.brk = FALSE)
+get.brks(N.brk, n.ped, snp.all2, target.snp, rcmb.rate = NA, same.brk = FALSE)
 }
 \arguments{
-\item{N.brk}{is either an integer or a vector of integers. If it is a single integer it gives the number of breaks to be picked 
-for each chromosome and all chromosomes will have the same number of break points. If it is an vector of integers it should be of the
-same length as the number of chromosomes, each number giving the number of break points of the corresponding chromosomes. The chromosomes
-are asssumed to be ordered by chromosome number.}
+\item{N.brk}{is an integer giving the number of breaks to be picked for each chromosome.}
 
 \item{n.ped}{is an integer giving the number of trios to be simulated}
 
 \item{snp.all2}{is a dataframe containing the list of SNPs in PLINK .bim format. Two columns of the dataframe
-is used: the column with column name "CHR" containing the chromosome number and the column with column name "POS"
+is used: column 1 with column name "V1" containing the chromosome number and column 4 with column name "V4"
 containing the chromosomal postion of the SNPs.}
 
 \item{target.snp}{is a vector of integers showing the row number of the target SNPs in the .bim file.}
@@ -49,4 +45,3 @@ family.pos <- found.brks[[2]]
 
 
 }
-

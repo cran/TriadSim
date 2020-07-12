@@ -4,13 +4,15 @@
 \name{rcmb.rate}
 \alias{rcmb.rate}
 \title{An example recombination rate dataset}
-\format{A data frame with 478 rows and 6 variables
+\format{
+A data frame with 478 rows and 6 variables
 \describe{
   \item{CHR}{Chromosome}
   \item{RS}{SNP rs number}
   \item{POS}{Chromosomal position}
   \item{RATE}{recombination rate between the SNP and the SNP above}
-}}
+}
+}
 \usage{
 rcmb.rate
 }
@@ -19,4 +21,3 @@ This dataset is an example dataset of recombination rates between SNPs
 The variables are as follows:
 }
 \keyword{datasets}
-

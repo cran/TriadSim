@@ -4,9 +4,18 @@
 \alias{glue.chr.segment.par}
 \title{Splicing chromosomal segments}
 \usage{
-glue.chr.segment.par(input.plink.file, out.put.file, brks, sel.fam.all,
-  snp.all2, pathway.all, target.snp, pop.vec = NA, no_cores = NA,
-  flip = TRUE)
+glue.chr.segment.par(
+  input.plink.file,
+  out.put.file,
+  brks,
+  sel.fam.all,
+  snp.all2,
+  pathway.all,
+  target.snp,
+  pop.vec = NA,
+  no_cores = NA,
+  flip = TRUE
+)
 }
 \arguments{
 \item{input.plink.file}{for simulations of homogenous population, it is a vector of three character strings for the base filenames of the mother's
@@ -61,15 +70,14 @@ target.geno <- get.target.geno(c(m.file,f.file,k.file), tar.snp,snp.all2)
 mom.target <- target.geno[[1]]
 dad.target <- target.geno[[2]]
 kid.target <- target.geno[[3]]
+ \dontrun{
 fitted.model <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp=tar.snp, 
 fam.pos=family.position,mom.tar=mom.target,dad.tar=dad.target, kid.tar=kid.target,  
 pathways=pwy,betas, e.fr=NA, betas,pop1.frac= NA,rate.beta=NA,no_cores=2)
 sel.fam <- fitted.model[[1]]
 sim.pathway.geno <-  fitted.model[[2]]
-\dontrun{
 glue.chr.segment.par(c(m.file,f.file,k.file),file.path(tempdir(),'trio'), breaks,sel.fam,
                      snp.all2,sim.pathway.geno,target.snp,pop.vec=NA,no_cores=1,flip=TRUE) 
 }
 
 }
-

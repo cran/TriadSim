@@ -4,9 +4,25 @@
 \alias{fit.risk.model.par}
 \title{Resample families based on the risk model}
 \usage{
-fit.risk.model.par(n.ped, brks, target.snp, fam.pos, mom.tar, dad.tar, kid.tar,
-  pathways, betas.e0, e.fr = NA, betas.e, pop1.frac = NA, rate.beta = NA,
-  is.case = TRUE, qtl = FALSE, out.put.file = NA, no_cores = NA)
+fit.risk.model.par(
+  n.ped,
+  brks,
+  target.snp,
+  fam.pos,
+  mom.tar,
+  dad.tar,
+  kid.tar,
+  pathways,
+  betas.e0,
+  e.fr = NA,
+  betas.e,
+  pop1.frac = NA,
+  rate.beta = NA,
+  is.case = TRUE,
+  qtl = FALSE,
+  out.put.file = NA,
+  no_cores = NA
+)
 }
 \arguments{
 \item{n.ped}{is an integer giving the number of trios to be simulated}
@@ -95,8 +111,9 @@ target.geno <- get.target.geno(c(m.file,f.file,k.file), tar.snp,snp.all2)
 mom.target <- target.geno[[1]]
 dad.target <- target.geno[[2]]
 kid.target <- target.geno[[3]]
+\dontrun{ 
 fitted.model <- fit.risk.model.par(n.ped=1000,brks=breaks,target.snp=tar.snp, 
 fam.pos=family.position,mom.tar=mom.target,dad.tar=dad.target, kid.tar=kid.target,  
 pathways=pwy,betas, e.fr=NA, betas,pop1.frac= NA,rate.beta=NA,no_cores=2)
 }
-
+}

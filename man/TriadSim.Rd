@@ -4,11 +4,29 @@
 \alias{TriadSim}
 \title{Simulation main function}
 \usage{
-TriadSim(input.plink.file, out.put.file, fr.desire, pathways, n.ped, N.brk,
-  target.snp = NA, P0, is.OR, risk.exposure, risk.pathway.unexposed,
-  risk.pathway.exposed, is.case = TRUE, e.fr = NA, pop1.frac = NA,
-  P0.ratio = 1, rcmb.rate = NA, no_cores = NA, qtl = FALSE,
-  same.brk = FALSE, flip = TRUE)
+TriadSim(
+  input.plink.file,
+  out.put.file,
+  fr.desire,
+  pathways,
+  n.ped,
+  N.brk,
+  target.snp = NA,
+  P0,
+  is.OR,
+  risk.exposure,
+  risk.pathway.unexposed,
+  risk.pathway.exposed,
+  is.case = TRUE,
+  e.fr = NA,
+  pop1.frac = NA,
+  P0.ratio = 1,
+  rcmb.rate = NA,
+  no_cores = NA,
+  qtl = FALSE,
+  same.brk = FALSE,
+  flip = TRUE
+)
 }
 \arguments{
 \item{input.plink.file}{gives the filenames (as well as the path) of the source data used for resampling. The input files are in PLINK format.
@@ -24,22 +42,15 @@ two subpopulations.}
 also contain information on chromosome number. E.g., for a base filename "trio" and for chromosome 1 the final filenames for the PLILK files
 are "trio1.bim","trio1.bed" and "trio1.fam".}
 
-\item{fr.desire}{for a simulation of a homogenous population, fr.desire is a double number giving the desired frequency of the target SNPs. 
-For a simulation under population stratification, fr desire is a vector of two double numbers, the first number giving the desired
-allele frequency of the target SNPs in the second population and the second number giving the desired difference in allele frequencies
-between the two subpopulations.}
+\item{fr.desire}{is a double number giving the desired frequency of the target SNPs.}
 
 \item{pathways}{is a list of vectors of integers. Each vector of integers denotes the SNPs involved in a particular pathway. E.g. list(1:4,5:8)}
 
 \item{n.ped}{is an integer giving the number of trios to be simulated}
 
-\item{N.brk}{is either an integer or a vector of integers. If it is a single integer it gives the number of breaks to be picked 
-for each chromosome and all chromosomes will have the same number of break points. If it is an vector of integers it should be of the
-same length as the number of chromosomes, each number giving the number of break points of the corresponding chromosomes. The chromosomes
-are asssumed to be ordered by chromosome number.}
+\item{N.brk}{is an integer giving the number of breaks to be picked for each chromosome.}
 
-\item{target.snp}{is a vector of integers showing the row number of the target SNPs in the .bim file. By default target.snp is set to "NA" and
-the facility function "pick_target.snp" wil be called to select the target SNPs.}
+\item{target.snp}{is a vector of integers showing the row number of the target SNPs in the .bim file.}
 
 \item{P0}{gives the baseline disease prevalence in the unexposed individuals with 0 copies of the risk pathways.}
 
@@ -105,4 +116,3 @@ input.plink.file <- c(m.file, f.file, k.file)
        risk.pathway.unexposed=c(1.5, 2), risk.pathway.exposed=c(1.5, 2), is.case=TRUE, e.fr=NA, 
        pop1.frac=NA, P0.ratio=1, rcmb.rate, no_cores=1)}
 }
-

@@ -4,7 +4,8 @@
 \name{snp.all2}
 \alias{snp.all2}
 \title{SNPs in the PLINK files}
-\format{A data frame with 10279 rows and 12 variables:
+\format{
+A data frame with 10279 rows and 12 variables:
 \describe{
   \item{ord}{Ordering of the SNPs}
   \item{RS}{SNP rs number}
@@ -14,7 +15,8 @@
   \item{A2}{A2 allele}
   \item{MAF}{Minor allele frequency}
   \item{NCHROBS}{Number of observed chromosomes used in MAF calculation}
-}}
+}
+}
 \usage{
 snp.all2
 }
@@ -23,4 +25,3 @@ A dataset containing the list of variables in the PLINK files
 The variables are as follows:
 }
 \keyword{datasets}
-

@@ -33,6 +33,7 @@ m.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_mom')
 f.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_dad')
 k.file <- file.path(system.file(package = "TriadSim"),'extdata/pop1_4chr_kid')
 # the preloaded data frame snp.all2 contains the data frame read from the corresponding .bim file.
+\dontrun{ 
 target.geno <- get.target.geno(c(m.file,f.file,k.file), tar.snp,snp.all2)
 }
-
+}
