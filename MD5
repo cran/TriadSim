@@ -1,7 +1,7 @@
-ff4bca0fe4b5d7c0ad237e2e7c459113 *DESCRIPTION
+f35b297c89ebe7cfb68714e2ede4f2ec *DESCRIPTION
 2a0fb5d5372e265d659b7cda7c4560e8 *NAMESPACE
-0b78e914f250027b20051089dc70af26 *NEWS.md
-f39dab344290f9541507a547f68ebba7 *R/TriadSim_functions.R
+016f7a249661a08879cfb936ff79ba23 *NEWS.md
+0188f4973db118b11be5f9ff8ce382c8 *R/TriadSim_functions.R
 6993f6f744deccbad3c60ec51b41023c *R/data.R
 9b3a6e3f021126d633cf82fa59dbadda *R/sysdata.rda
 f742b9b09499be701bdad4769b03fe56 *README.md
@@ -10,7 +10,7 @@ def2ca41f12a785b9b5736866096c728 *data/rcmb.rate.rda
 b902a7f155b6a54476053eaa50df40e9 *data/snp.all2.rda
 fe145efb5dae48e6529d09b82a797ef9 *inst/doc/TriadSim.R
 974bb96cd07ddaeae98e7279a6ab22ce *inst/doc/TriadSim.Rmd
-8b048a1abc7e09fba7ac4445c24accaa *inst/doc/TriadSim.html
+759c5fd342412eb5f51e6de9c9ae194b *inst/doc/TriadSim.html
 9725642263e0dcc009b46e05580005a7 *inst/extdata/man/TriadSim.Rd
 6a1482f40d40fc579f3c1dcb70c5207a *inst/extdata/man/fit.risk.model.par.Rd
 e089d925b6fe1d1f2bda8e5b6f969883 *inst/extdata/man/get.brks.Rd

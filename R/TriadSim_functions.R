@@ -585,7 +585,7 @@ glue.chr.segment.par <- function(input.plink.file,out.put.file, brks,sel.fam.all
     n.snp <- ncol(geno.mfc)/3
     geno.all <- geno.mfc[,1:n.snp]; 
     geno.all <- rbind(geno.all,geno.mfc[,1:n.snp+n.snp]);
-    geno.all <- rbind(geno.all,geno.mfc[,1:n.snp+n.snp]); 
+    geno.all <- rbind(geno.all,geno.mfc[,1:n.snp+n.snp*2]); 
     
     ### due to fill in zero's at the creating target snp genotypes to maximize sample size, spliced data wil be different. Fill in with pathway.all results ##
     geno.all[,chr.pos[risk.chr==one.chr]] <- pathway.all[,risk.chr==one.chr]
